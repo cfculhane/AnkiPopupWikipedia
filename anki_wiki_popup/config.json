@@ -1,0 +1,7 @@
+{
+    "show_notfound_msg": true,
+    "popup_hotkey": "Ctrl+Shift+W",
+    "wikipedia_lang": "en",
+    "exclude_list": "path to exclude list",
+    "max_results_limit": 1000
+}
