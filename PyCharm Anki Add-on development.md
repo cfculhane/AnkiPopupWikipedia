@@ -1,7 +1,7 @@
 PyCharm Anki Add-on development
 
 This is a quick and dirty guide to getting Anki running in a dev environment.
-My setup : Windows 10 x64, Python 3.7
+My setup : Windows 10 x64, Python 3.7.4
 
 
 ### Setting up Anki from source
@@ -14,9 +14,9 @@ My setup : Windows 10 x64, Python 3.7
 	- Also need to install the QT dependencies: `pip install PyQt5 PyQtWebEngine`
 - At this point, you need to build the UI components. No windows script is provided, but one is available here: https://gist.github.com/dlon/81ca304616ee4b03c58a11581a21d048#file-build_ui-ps1
 	- download the script, put it in .\anki\tools, then run powershell
-	- `cd .\anki` then `.\tools\build_ui` , should run for a bit and display a sucess message. Yay!
-- (Optional, but highly reccomended) - you want to start your anki with a different profile path, so your addons and profile are seperated from your 10000 cards
-	- To do this, add a new run configuration in PyCharm, specififying the venv you created earlier. Set the working directory to .\anki
+	- `cd .\anki` then `.\tools\build_ui` , should run for a bit and display a success message. Yay!
+- (Optional, but highly recommended) - you want to start your anki with a different profile path, so your addons and profile are seperated from your 10000 cards
+	- To do this, add a new run configuration in PyCharm, specifying the venv you created earlier. Set the working directory to .\anki
 	- Set the script as .\anki\runanki.py
 	- Under script parameters, set `-b <path to your anki dev folder>` e.g. C:\Github\anki
 	- This will create a new fresh profile, and create a .\anki\addons21 folder for your eventual addon.

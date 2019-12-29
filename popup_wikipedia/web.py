@@ -30,10 +30,22 @@
 # Any modifications to this file must keep this entire header intact.
 
 """
-Handles add-on configuration
+JS libs
 """
 
 from aqt import mw
-from .libaddon.anki.configmanager import ConfigManager
 
-config = ConfigManager(mw)
+from .libaddon.platform import MODULE_ADDON
+
+popup_integrator = f"""
+<link rel="stylesheet" href="/_addons/{MODULE_ADDON}/web/jquery.qtip.css">
+<link rel="stylesheet" href="/_addons/{MODULE_ADDON}/web/wiki_popup.css">
+<script src="/_addons/{MODULE_ADDON}/web/jquery.qtip.js"></script>
+<script src="/_addons/{MODULE_ADDON}/web/jquery.highlight.min.js"></script>
+<script src="/_addons/{MODULE_ADDON}/web/wiki_popup.js"></script>
+"""
+
+
+def initializeWeb():
+    # TODO: either fix on Anki#s end or use re.escape(os.path.sep)
+    mw.addonManager.setWebExports(__name__, r"web.*")

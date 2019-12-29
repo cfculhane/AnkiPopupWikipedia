@@ -1,5 +1,5 @@
 // Custom JS that is added as a script element to Reviewer HTML
-console.log("tooltip.js loaded")
+console.log("wiki_popup.js loaded");
 // Create the tooltips only when document ready
 $(document).ready(function () {
 
@@ -75,7 +75,7 @@ $(document).ready(function () {
             document.selection && document.selection.createRange());
     }
 
-    invokeTooltipAtSelectedElm = function () {
+    invokeWikiTooltipAtSelectedElm = function () {
         var selection = getSelected();
         var selElm = selection.getRangeAt(0).startContainer.parentNode;
         var ttBoundElm = $(selElm).closest(".qtip-content");
@@ -127,7 +127,7 @@ $(document).ready(function () {
 
         // Set tooltip contents through pyrun bridge. Need to use a callback
         // due to async execution of JS and Python in Anki 2.1
-        pycmd("dctLookup:" + JSON.stringify([term, selNID]), function (text) {
+        pycmd("wikiLookup:" + JSON.stringify([term, selNID]), function (text) {
             return onCallback(text);
         });
 
@@ -159,7 +159,7 @@ $(document).ready(function () {
 
             // Nested tooltips
             // create child tooltip for content on current tooltip
-            if ($(newdomID).length == 0) {
+            if ($(newdomID).length === 0) {
                 // Bind new qtip instance to content of current tooltip
                 console.log("Create new tooltip on ID: " + domID + ". Tooltip will have ID: " + newdomID)
                 createTooltip(domID + "-content");

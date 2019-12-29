@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Popup Dictionary Add-on for Anki
+# Popup Wikipedia Add-on for Anki
 #
 # Copyright (C) 2019 Chris Culhane>
 #

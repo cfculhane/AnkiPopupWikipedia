@@ -1,4 +1,34 @@
+# -*- coding: utf-8 -*-
+
+# Popup Wikipedia Add-on for Anki
+#
+# Copyright (C)  2019-2020 Chris Culhane <cfculhane@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version, with the additions
+# listed at the end of the license file that accompanied this program.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# NOTE: This program is subject to certain additional terms pursuant to
+# Section 7 of the GNU Affero General Public License.  You should have
+# received a copy of these additional terms immediately following the
+# terms and conditions of the GNU Affero General Public License that
+# accompanied this program.
+#
+# Any modifications to this file must keep this entire header intact.
+
+
 import json
+from typing import Dict
 
 import requests
 
@@ -10,16 +40,16 @@ class WikiConnect(object):
     def __init__(self):
         self.session = requests.Session()
 
-    def get_preview(self, title: str) -> {}:
+    def get_summary(self, title: str) -> {}:
+        """ Gets the raw preview JSON API response for a title"""
         req_url = f"{self.API_BASEURL}page/summary/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return json.loads(resp.text)
 
-    def get_extract(self, title: str) -> str:
-        return self.get_preview(title=title)["extract_html"]
-
     def get_mobile_html(self, title: str) -> str:
         """ Gets page as mobile-formatted text """
+        summary = self.get_summary(title)  # Get preview first to handle disambiguation
+        disambig = self._diambig_handler(summary)
         req_url = f"{self.API_BASEURL}page/mobile-html/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return resp.text
@@ -44,9 +74,10 @@ class WikiConnect(object):
         req_url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&list=querypage&qppage=DisambiguationPageLinks&qplimit=10"
         resp = self.session.get(url=req_url)
 
-    def format_extract(self, title: str) -> str:
+    def get_extract(self, title: str) -> str:
         """ Makes a pretty popup preview in html"""
-        preview = self.get_preview(title)
+        summary = self.get_summary(title)
+        disambig = self._diambig_handler(summary)
 
         filled_html = f"""
             <!DOCTYPE html>
@@ -62,35 +93,42 @@ class WikiConnect(object):
                         rel="stylesheet"
                 />
                 <link rel="stylesheet" href="css/bootstrap.min.css"/>
-                <title>{preview["titles"]["display"]}</title>
+                <title>{summary["titles"]["display"]}</title>
             </head>
             <div>
             """
-        if preview.get("thumbnail") is not None:
+        if summary.get("thumbnail") is not None:
             filled_html += f"""
-                <img src="{preview["thumbnail"]["source"]}"
-                     alt="{preview["titles"]["display"]}_img" style=
-                     "width:{preview["thumbnail"]["width"]}px;
-                     height:{preview["thumbnail"]["height"]}px;
+                <img src="{summary["thumbnail"]["source"]}"
+                     alt="{summary["titles"]["display"]}_img" style=
+                     "width:{summary["thumbnail"]["width"]}px;
+                     height:{summary["thumbnail"]["height"]}px;
                      float:right;margin-left:7px;margin-bottom:5px;">
                 """
         filled_html += f"""
                 <span style="font-size: 20px;">
-                    <b>{preview["titles"]["display"]}</b></span>
-                {preview["extract_html"]}
+                    <b>{summary["titles"]["display"]}</b></span>
+                {summary["extract_html"]}
             </div>
         """
         return filled_html
 
-    def _diambig_handler(self, ):
+    def _diambig_handler(self, summary_resp: Dict):
         """
         Handles disambiguation routing
 
         :returns:
         """
-        pass
+        if summary_resp.get("type") == "disambiguation":
+            print(f"handling disambiguation for {summary_resp['title']}")
 
-    def _parse_title(self, title: str) -> str:
+            return summary_resp
+        else:
+            return summary_resp
+
+
+    @staticmethod
+    def _parse_title(title: str) -> str:
         """
         Formats title to format used in REST API (see: https://en.wikipedia.org/api/rest_v1/#/)
 

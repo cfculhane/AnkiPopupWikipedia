@@ -34,43 +34,66 @@ Modifications to Anki's Reviewer
 """
 
 import json
-
-import aqt
-from aqt.qt import *
-from aqt import mw
-from aqt.reviewer import Reviewer
+import re
 
 from anki.hooks import wrap, addHook
-
-from .results import getContentFor
-from .web import popup_integrator
+from aqt import mw
+from aqt.qt import *
+from aqt.reviewer import Reviewer
 from .config import config
+from .web import popup_integrator
+from .wiki_connect import WikiConnect
+
+html_reslist = """<div class="tt-reslist">{}</div>"""
+
+html_field = """<div class="tt-fld">{}</div>"""
+
+# RegExes for cloze marker removal
+
+cloze_re_str = r"\{\{c(\d+)::(.*?)(::(.*?))?\}\}"
+cloze_re = re.compile(cloze_re_str)
+
+
+# Functions that compose tooltip content
+
+def getContentFor(term) -> str:
+    """Compose tooltip content for search term.
+    Returns HTML string."""
+    conf = config["local"]
+    note_content = None
+    wiki = WikiConnect()
+
+    popup_type: str = config["local"]["popup_type"]
+    if popup_type == "mobile":
+        content = [wiki.get_mobile_html(term)]
+    elif popup_type == "extract":
+        content = [wiki.get_extract(term)]
+    else:
+        raise ValueError(f"popup_type {popup_type} not supported! Please check configuration file.")
+
+    extract_thumbnail = None  # TODO Implement thumbnails
+    if extract_thumbnail is not None:
+        content.append(extract_thumbnail)  # TODO need to format thumbnail into HTML
+
+    if content:
+        return html_reslist.format("".join(content))
+    elif note_content is False:
+        return ""
+    elif note_content is None:
+        return "No other results found." if conf["show_notfound_msg"] else ""
 
 
 def linkHandler(self, url, _old):
     """JS <-> Py bridge"""
-    if url.startswith("dctBrws"):
-        (cmd, arg) = url.split(":", 1)
-        if not arg:
-            return
-        browseToNid(arg)
-    elif url.startswith("dctLookup"):
+    print(f"url = {url}")
+    if url.startswith("wikiLookup"):
         (cmd, payload) = url.split(":", 1)
         term, ignore_nid = json.loads(payload)
+        print(f"term = {term}, ignore_nid = {ignore_nid}")
         term = term.strip()
-        return getContentFor(term, ignore_nid)
-    elif url.startswith("dctDebug"):
-        (cmd, msg) = url.split(":", 1)
-
+        return getContentFor(term)
     else:
         return _old(self, url)
-
-
-def browseToNid(nid):
-    """Open browser and find cards by nid"""
-    browser = aqt.dialogs.open("Browser", mw)
-    browser.form.searchEdit.lineEdit().setText("nid:'{}'".format(nid))
-    browser.onSearchActivated()
 
 
 def onRevHtml(self, _old):
@@ -88,7 +111,7 @@ def onProfileLoaded():
 def onReviewerHotkey():
     if mw.state != "review":
         return
-    mw.reviewer.web.eval("invokeTooltipAtSelectedElm();")
+    mw.reviewer.web.eval("invokeWikiTooltipAtSelectedElm();")
 
 
 def setupShortcuts():
