@@ -30,15 +30,15 @@
 import json
 from typing import Dict
 
-import requests
+from requests_cache import CachedSession
 
 
 class WikiConnect(object):
     """ Handle connections to wikipedia and return preview data"""
     API_BASEURL = "https://en.wikipedia.org/api/rest_v1/"
 
-    def __init__(self):
-        self.session = requests.Session()
+    def __init__(self, cache_expiry_hrs: int):
+        self.session = CachedSession(expire_after=cache_expiry_hrs * 3600)  # expire_after is in seconds
 
     def get_summary(self, title: str) -> {}:
         """ Gets the raw preview JSON API response for a title"""
@@ -49,7 +49,10 @@ class WikiConnect(object):
     def get_mobile_html(self, title: str) -> str:
         """ Gets page as mobile-formatted text """
         summary = self.get_summary(title)  # Get preview first to handle disambiguation
-        disambig = self._diambig_handler(summary)
+        try:
+            parsed_summary = self.summary_parser(summary)
+        except ValueError:
+            return f"No wikipedia entry found for '{title}'"
         req_url = f"{self.API_BASEURL}page/mobile-html/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return resp.text
@@ -77,7 +80,10 @@ class WikiConnect(object):
     def get_extract(self, title: str) -> str:
         """ Makes a pretty popup preview in html"""
         summary = self.get_summary(title)
-        disambig = self._diambig_handler(summary)
+        try:
+            parsed_summary = self.summary_parser(summary)
+        except ValueError:
+            return f"No wikipedia entry found for '{title}'"
 
         filled_html = f"""
             <!DOCTYPE html>
@@ -113,19 +119,20 @@ class WikiConnect(object):
         """
         return filled_html
 
-    def _diambig_handler(self, summary_resp: Dict):
+    def summary_parser(self, summary_resp: Dict) -> Dict:
         """
-        Handles disambiguation routing
+        Handles disambiguation routing, search failuers
 
         :returns:
         """
-        if summary_resp.get("type") == "disambiguation":
+        if summary_resp.get("title") == "Not found.":
+            raise ValueError(f"No wikipedia article exists at {summary_resp['uri']}")
+        elif summary_resp.get("type") == "disambiguation":
             print(f"handling disambiguation for {summary_resp['title']}")
 
             return summary_resp
         else:
             return summary_resp
-
 
     @staticmethod
     def _parse_title(title: str) -> str:

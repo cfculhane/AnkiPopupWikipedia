@@ -4,5 +4,6 @@
     "popup_hotkey": "Ctrl+Shift+W",
     "wikipedia_lang": "en",
     "exclude_list": "",
-    "max_results_limit": 1000
+    "max_results_limit": 1000,
+    "cache_expire_after": 720
 }

@@ -37,15 +37,21 @@ from aqt import mw
 
 from .libaddon.platform import MODULE_ADDON
 
-popup_integrator = f"""
-<link rel="stylesheet" href="/_addons/{MODULE_ADDON}/web/jquery.qtip.css">
-<link rel="stylesheet" href="/_addons/{MODULE_ADDON}/web/wiki_popup.css">
-<script src="/_addons/{MODULE_ADDON}/web/jquery.qtip.js"></script>
-<script src="/_addons/{MODULE_ADDON}/web/jquery.highlight.min.js"></script>
-<script src="/_addons/{MODULE_ADDON}/web/wiki_popup.js"></script>
-"""
+STYLES = ["jquery.qtip.css", "wiki_popup.css"]
+JS_SCRIPTS = ["jquery.qtip.js", "wiki_popup.js"]
+EXTENSION_PATHS = []
+EXTENSION_HTML: str
+
+for style in STYLES:
+    EXTENSION_PATHS.append(f'<link rel="stylesheet" href="/_addons/{MODULE_ADDON}/web/{style}">')
+
+for js_script in JS_SCRIPTS:
+    EXTENSION_PATHS.append(f'<script src="/_addons/{MODULE_ADDON}/web/{js_script}"></script>')
+
+EXTENSION_HTML = "\n".join(EXTENSION_PATHS)
 
 
 def initializeWeb():
-    # TODO: either fix on Anki#s end or use re.escape(os.path.sep)
+    # TODO: either fix on Anki's end or use re.escape(os.path.sep)
+    print("initializeWeb called")
     mw.addonManager.setWebExports(__name__, r"web.*")

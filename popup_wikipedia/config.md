@@ -7,3 +7,4 @@ Please note that the following settings do not sync and require a restart to app
 - `wikipedia_lang` (string): Language of wikipedia to use. Default `"en"`
 - `exclude_list` (string): (Optional) Path to list of words to exclude from wikipedia lookups. Default `""` (empty)
 - `max_results_limit` (integer): Number of results above which to show a warning on the potential slowdowns they could cause. Set to `0` to disable warning. Default: `1000`.
+- `cache_expire_after` (integer): Number of hours to store a cache of the wikipedia previews. Default: `720` hours (30 days)

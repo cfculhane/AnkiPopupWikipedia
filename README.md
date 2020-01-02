@@ -21,3 +21,4 @@ Additionally, this add-on includes the following javascript libraries:
 
 - Clicking on links inside the popup opens the browser, but with the wrong URL
 - Disambiguation pages are not handled well
+- Does not work with NightMode due to the way Night-Mode monkeypatches Reviewer.revHtml, see [this github issue here](https://github.com/krassowski/Anki-Night-Mode/issues/53)

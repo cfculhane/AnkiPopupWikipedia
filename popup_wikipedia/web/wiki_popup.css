@@ -1,22 +1,22 @@
 .qtip {
-    max-width: 640px;
-    max-height: 640px;
-    font-family: "arial", sans-serif;
+    max-width: 800px;
+    max-height: 600px;
+    font-family: "helvetica", sans-serif;
     color: #141414;
     background-color: white;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
-.night_mode > .qtip {
-    background-color: #141414;
-    border-color: #515151;
-    border-width: 1px;
-    color: white;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+.night_mode .qtip {
+    background-color: #141414 !important;
+    border-color: #515151 !important;
+    border-width: 1px !important;
+    color: white !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4) !important;
 }
 
-.night_mode > .qtip img {
-    background: white;
+.night_mode .qtip img {
+    background: white !important;
 }
 
 .qtip-bootstrap .qtip-content {
@@ -54,8 +54,8 @@
     background-color: #F2F2F2;
 }
 
-.night_mode > .qtip .tt-dict {
-    background-color: #0D0D0D;
+.night_mode .qtip .tt-dict {
+    background-color: #0D0D0D !important;
 }
 
 .tt-dict-title {
@@ -79,14 +79,6 @@
     vertical-align: bottom;
     color: #A0A0A0;
     cursor: pointer;
-}
-
-.highlight {
-    background-color: #FFFFA5;
-}
-
-.night_mode > .qtip .highlight {
-    color: black
 }
 
 .qtip img {

@@ -22,12 +22,9 @@ class ADDON(object):
     )
     AUTHOR_MAIL = "cfculhane@gmail.com"
     LIBRARIES = (
-        {"name": "qTip2", "version": "v2.1.1",
+        {"name": "qTip2", "version": "3.0.3",
          "author": "Craig Michael Thompson", "license": "MIT license",
          "url": "http://qtip2.com/"},
-        {"name": "jQuery.highlight", "version": "5",
-         "author": "Johann Burkard", "license": "MIT license",
-         "url": "https://johannburkard.de/blog/programming/javascript/highlight-javascript-text-higlighting-jquery-plugin.html"},
     )
     CONTRIBUTORS = ()
     SPONSORS = ()

@@ -37,4 +37,3 @@ from aqt import mw
 from .libaddon.anki.configmanager import ConfigManager
 
 config = ConfigManager(mw)
-print(config)

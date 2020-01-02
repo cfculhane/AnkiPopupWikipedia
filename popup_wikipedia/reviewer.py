@@ -41,12 +41,12 @@ from aqt import mw
 from aqt.qt import *
 from aqt.reviewer import Reviewer
 from .config import config
-from .web import popup_integrator
+from .web import EXTENSION_HTML
 from .wiki_connect import WikiConnect
 
-html_reslist = """<div class="tt-reslist">{}</div>"""
+# html_reslist = """<div class="tt-reslist">{}</div>"""
 
-html_field = """<div class="tt-fld">{}</div>"""
+# html_field = """<div class="tt-fld">{}</div>"""
 
 # RegExes for cloze marker removal
 
@@ -55,70 +55,79 @@ cloze_re = re.compile(cloze_re_str)
 
 
 # Functions that compose tooltip content
+# Note that some of these functions are monkey-patched into the Anki codebase, so function names are
+# not PEP-8 compliant
 
-def getContentFor(term) -> str:
-    """Compose tooltip content for search term.
-    Returns HTML string."""
+def get_wikicontent(term) -> str:
+    """ Compose tooltip content for search term.
+    Returns HTML string. """
     conf = config["local"]
     note_content = None
-    wiki = WikiConnect()
+    wiki = WikiConnect(cache_expiry_hrs=conf["cache_expire_after"])
 
-    popup_type: str = config["local"]["popup_type"]
+    popup_type: str = conf["popup_type"]
     if popup_type == "mobile":
-        content = [wiki.get_mobile_html(term)]
+        content = wiki.get_mobile_html(term)
     elif popup_type == "extract":
-        content = [wiki.get_extract(term)]
+        content = wiki.get_extract(term)
     else:
         raise ValueError(f"popup_type {popup_type} not supported! Please check configuration file.")
 
-    extract_thumbnail = None  # TODO Implement thumbnails
-    if extract_thumbnail is not None:
-        content.append(extract_thumbnail)  # TODO need to format thumbnail into HTML
-
-    if content:
-        return html_reslist.format("".join(content))
-    elif note_content is False:
-        return ""
-    elif note_content is None:
-        return "No other results found." if conf["show_notfound_msg"] else ""
+    return content
+    # if content:
+    #     return html_reslist.format("".join(content))
+    # elif note_content is False:
+    #     return ""
+    # elif note_content is None:
+    #     return "No other results found." if conf["show_notfound_msg"] else ""
 
 
+# noinspection PyPep8Naming
 def linkHandler(self, url, _old):
     """JS <-> Py bridge"""
-    print(f"url = {url}")
+    print(f"popup-wikipedia linkHandler url = {url}")
+    print("---")
     if url.startswith("wikiLookup"):
         (cmd, payload) = url.split(":", 1)
-        term, ignore_nid = json.loads(payload)
-        print(f"term = {term}, ignore_nid = {ignore_nid}")
+        term = json.loads(payload)
+        print(f"term = {term}")
         term = term.strip()
-        return getContentFor(term)
+        return get_wikicontent(term)
     else:
         return _old(self, url)
 
 
+# noinspection PyPep8Naming
 def onRevHtml(self, _old):
-    return _old(self) + popup_integrator
+    print(f"Updated reviewer HTML :\n{_old(self) + EXTENSION_HTML}")
+    return _old(self) + EXTENSION_HTML
 
 
-def onProfileLoaded():
+# noinspection PyPep8Naming
+def patch_reviewer():
     """Monkey-patch Reviewer delayed in order to counteract bad practices
     in other add-ons that overwrite revHtml and _linkHandler in their
     entirety"""
+    print("wiki patch_reviewer called")
     Reviewer.revHtml = wrap(Reviewer.revHtml, onRevHtml, "around")
     Reviewer._linkHandler = wrap(Reviewer._linkHandler, linkHandler, "around")
 
 
-def onReviewerHotkey():
+def wiki_hotkey() -> bool:
     if mw.state != "review":
-        return
-    mw.reviewer.web.eval("invokeWikiTooltipAtSelectedElm();")
+        return False
+    else:
+        mw.reviewer.web.eval("invokeWikiTooltipAtSelectedElm();")
+        return True
 
 
+# noinspection PyPep8Naming
 def setupShortcuts():
     QShortcut(QKeySequence(config["local"]["popup_hotkey"]),
-              mw, activated=onReviewerHotkey)
+              mw, activated=wiki_hotkey)
 
 
+# noinspection PyPep8Naming
 def initializeReviewer():
     setupShortcuts()
-    addHook("profileLoaded", onProfileLoaded)
+    addHook("profileLoaded", patch_reviewer)
