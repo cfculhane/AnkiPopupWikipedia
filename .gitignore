@@ -106,3 +106,4 @@ venv.bak/
 /0amboss_addon/
 /anki_wiki_popup/anki_source/
 /popup-dictionary/
+popup_wikipedia/cache.sqlite

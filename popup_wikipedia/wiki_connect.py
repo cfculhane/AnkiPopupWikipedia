@@ -28,6 +28,7 @@
 
 
 import json
+from pathlib import Path
 from typing import Dict
 
 from requests_cache import CachedSession
@@ -35,26 +36,30 @@ from requests_cache import CachedSession
 
 class WikiConnect(object):
     """ Handle connections to wikipedia and return preview data"""
-    API_BASEURL = "https://en.wikipedia.org/api/rest_v1/"
+    REST_API_BASEURL = "https://en.wikipedia.org/api/rest_v1/"
+    MEDIAWIKI_API_BASEURL = "https://en.wikipedia.org/w/api.php"
 
     def __init__(self, cache_expiry_hrs: int):
         self.session = CachedSession(expire_after=cache_expiry_hrs * 3600)  # expire_after is in seconds
 
     def get_summary(self, title: str) -> {}:
         """ Gets the raw preview JSON API response for a title"""
-        req_url = f"{self.API_BASEURL}page/summary/{self._parse_title(title)}"
+        req_url = f"{self.REST_API_BASEURL}page/summary/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return json.loads(resp.text)
 
     def get_mobile_html(self, title: str) -> str:
-        """ Gets page as mobile-formatted text """
+        """ Gets page as mobile-formatted html-text """
         summary = self.get_summary(title)  # Get preview first to handle disambiguation
         try:
             parsed_summary = self.summary_parser(summary)
+            title = parsed_summary["title"]
+            print(f"Parsed page title from summary = {title}")
         except ValueError:
             return f"No wikipedia entry found for '{title}'"
-        req_url = f"{self.API_BASEURL}page/mobile-html/{self._parse_title(title)}"
+        req_url = f"{self.REST_API_BASEURL}page/mobile-html/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
+        Path(r"C:\Temp\out.html").write_text(resp.text, encoding="utf-8")
         return resp.text
 
     def search(self, search_term: str):
@@ -82,8 +87,23 @@ class WikiConnect(object):
         summary = self.get_summary(title)
         try:
             parsed_summary = self.summary_parser(summary)
+            title = parsed_summary["title"]
+            print(f"Parsed page title from summary = {title}")
         except ValueError:
             return f"No wikipedia entry found for '{title}'"
+        extract_params = {"action": "query",
+                          "format": "json",
+                          "prop": "extracts",
+                          "titles": title,
+                          "exchars": "1200",
+                          "exlimit": "1"}
+
+        resp = self.session.get(url=self.MEDIAWIKI_API_BASEURL, params=extract_params)
+        extract_resp = json.loads(resp.text)
+        extract_html = None
+        for page in extract_resp["query"]["pages"].values():
+            extract_html = page.get("extract")
+            break  # there should only be one extract
 
         filled_html = f"""
             <!DOCTYPE html>
@@ -114,7 +134,8 @@ class WikiConnect(object):
         filled_html += f"""
                 <span style="font-size: 20px;">
                     <b>{summary["titles"]["display"]}</b></span>
-                {summary["extract_html"]}
+                {extract_html or f"No extract found for {title}"}
+                <p>Click <a href="{summary['content_urls']['desktop']['page']}">here for the full article.</a></p>
             </div>
         """
         return filled_html
@@ -146,4 +167,4 @@ class WikiConnect(object):
 
 
 if __name__ == '__main__':
-    wiki = WikiConnect()
+    wiki = WikiConnect(cache_expiry_hrs=100)

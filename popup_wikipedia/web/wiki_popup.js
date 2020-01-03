@@ -115,7 +115,7 @@ function createTooltip(element) {
             adjust: {
                 mouse: false,  // don't follow mouse
                 method: 'flip',  // adjust to viewport by flipping tip if necessary
-                scroll: false,  // buggy, disable
+                scroll: true,  // buggy, disable
             }
         },
         // apply predefined style
@@ -123,9 +123,9 @@ function createTooltip(element) {
             classes: 'qtip-bootstrap',
         },
         // don't set up any hide event triggers, do it manually instead
-        hide: false,
+        // hide: false,
         // wait until called upon
-        show: false,
+        // show: false,
         events: {
             hide: function (event, api) {
                 // hide next nested tooltip on hide
