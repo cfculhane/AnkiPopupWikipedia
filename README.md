@@ -1,6 +1,12 @@
 # AnkiWikiPopup
 Anki 2.1 addon to display Wikipedia page previews inside of Anki
 
+### Features
+
+- Popup of either full mobile pages, or shorter extracts
+- page caching to speed up repeated searches
+- Full HTML popups with 
+
 
 This is currently in beta stage - things will almost certainly break! Please submit a bug report if it does.
 

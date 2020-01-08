@@ -1,5 +1,5 @@
 .qtip {
-    max-width: 800px;
+    max-width: 600px;
     max-height: 600px;
     font-family: "helvetica", sans-serif;
     color: #141414;
@@ -11,21 +11,21 @@
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
-    padding-bottom: 0px;
+    padding-bottom: 10px;
 }
 
 .qtip-content {
-    margin-top: 20px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 50px;
-    max-width: 800px;
-    max-height: 600px;
+    /*margin-top: 5px;*/
+    /*margin-left: 0;*/
+    /*margin-right: 0;*/
+    /*margin-bottom: 5px;*/
+    max-width: 600px;
+    max-height: 580px;
     overflow-y: auto;
     text-align: justify;
 }
 
-.tt-res {
+.wiki-result {
     position: relative;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -33,21 +33,7 @@
     padding-bottom: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
-    border-style: solid;
-    border-width: 0.1em;
-    border-color: #7E7680;
-    border-radius: 0.1em;
 }
-
-/*.tt-brws {*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    right: 0;*/
-/*    line-height: 5px;*/
-/*    vertical-align: bottom;*/
-/*    color: #A0A0A0;*/
-/*    cursor: pointer;*/
-/*}*/
 
 .qtip img {
     max-width: 100% !important;

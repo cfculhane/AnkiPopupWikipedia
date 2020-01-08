@@ -28,16 +28,20 @@
 
 
 import json
+import re
+from os import PathLike
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Union
 
 from requests_cache import CachedSession
 
 
 class WikiConnect(object):
-    """ Handle connections to wikipedia and return preview data"""
+    """ Handle connections to wikipedia and gets HTML formatted text of articles in either extract
+    or mobile formats. """
     REST_API_BASEURL = "https://en.wikipedia.org/api/rest_v1/"
     MEDIAWIKI_API_BASEURL = "https://en.wikipedia.org/w/api.php"
+    WIKI_BASEURL = "https://en.wikipedia.org/"
 
     def __init__(self, cache_expiry_hrs: int):
         self.session = CachedSession(expire_after=cache_expiry_hrs * 3600)  # expire_after is in seconds
@@ -59,8 +63,7 @@ class WikiConnect(object):
             return f"No wikipedia entry found for '{title}'"
         req_url = f"{self.REST_API_BASEURL}page/mobile-html/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
-        Path(r"C:\Temp\out.html").write_text(resp.text, encoding="utf-8")
-        return resp.text
+        return f'<div class="wiki-result">{resp.text}</div>'
 
     def search(self, search_term: str):
         """
@@ -69,6 +72,7 @@ class WikiConnect(object):
         :param search_term:
         :returns:
         """
+        raise NotImplementedError("search() yet handled properly!")
         req_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=SEO&srwhat=text&srlimit=2"
         resp = self.session.get(url=req_url)
 
@@ -79,11 +83,17 @@ class WikiConnect(object):
         :param title:
         :returns:
         """
+        raise NotImplementedError("Disambiguation links not yet handled properly!")
         req_url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&list=querypage&qppage=DisambiguationPageLinks&qplimit=10"
+
+        similar_titles = "https://en.wikipedia.org/w/api.php?action=query&list=alllinks&alfrom=Tissue&alnamespace=0&alunique=true"
         resp = self.session.get(url=req_url)
 
     def get_extract(self, title: str) -> str:
-        """ Makes a pretty popup preview in html"""
+        """
+        Gets and parses an extract html.
+        See https://www.mediawiki.org/wiki/Extension:TextExtracts for details on the API.
+        """
         summary = self.get_summary(title)
         try:
             parsed_summary = self.summary_parser(summary)
@@ -96,6 +106,7 @@ class WikiConnect(object):
                           "prop": "extracts",
                           "titles": title,
                           "exchars": "1200",
+                          "exintro": True,
                           "exlimit": "1"}
 
         resp = self.session.get(url=self.MEDIAWIKI_API_BASEURL, params=extract_params)
@@ -138,7 +149,8 @@ class WikiConnect(object):
                 <p>Click <a href="{summary['content_urls']['desktop']['page']}">here for the full article.</a></p>
             </div>
         """
-        return filled_html
+
+        return f'<div class="wiki-result">{filled_html}</div>'
 
     def summary_parser(self, summary_resp: Dict) -> Dict:
         """
@@ -165,6 +177,21 @@ class WikiConnect(object):
         """
         return title.strip().replace(" ", "_")
 
+    def _fix_relative_pths(self, html_str: str) -> str:
+        """ Changes relative paths to reference the wiki server, so that relative links inside HTMl
+        work properly. Is not currently used due to some issues"""
 
-if __name__ == '__main__':
-    wiki = WikiConnect(cache_expiry_hrs=100)
+        # TODO re-write to fix only the needed paths
+        def srcrepl(match):  # Return the file contents with paths replaced
+            print("<" + match.group(1) + match.group(2) + "=" + "\"" + self.WIKI_BASEURL + match.group(3) + match.group(
+                4) + "\"" + ">")
+            return "<" + match.group(1) + match.group(2) + "=" + "\"" + self.WIKI_BASEURL + match.group(
+                3) + match.group(
+                4) + "\"" + ">"
+
+        p = re.compile(r"<(.*?)(src|href)=\"(?!http)(.*?)\"(.*?)>")
+        return p.sub(srcrepl, html_str)
+
+    @staticmethod
+    def _write_htmlfile(html, pth: Union[Path, str, PathLike]) -> int:
+        return Path(pth).write_text(html, encoding="utf-8")

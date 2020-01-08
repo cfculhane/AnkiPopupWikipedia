@@ -1,5 +1,5 @@
 {
-    "popup_type": "mobile",
+    "popup_type": "extract",
     "show_notfound_msg": true,
     "popup_hotkey": "Ctrl+Shift+W",
     "wikipedia_lang": "en",
