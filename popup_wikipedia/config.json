@@ -1,6 +1,6 @@
 {
     "popup_type": "mobile",
-    "popup_hotkey": "Ctrl+Shift+W",
+    "wiki_popup_hotkey": "Ctrl+Shift+W",
     "wikipedia_lang": "en",
     "exclude_list": "",
     "cache_expire_after": 720

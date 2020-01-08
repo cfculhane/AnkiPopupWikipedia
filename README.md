@@ -56,3 +56,5 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 - Clicking on links inside the popup opens the browser, but with the wrong URL
 - Disambiguation pages are not handled well
 - Does not work with NightMode due to the way Night-Mode monkeypatches Reviewer.revHtml, see [this github issue here](https://github.com/krassowski/Anki-Night-Mode/issues/53)
+- Currently does not play nicely with Popup Dictionary. Currently trying to figure this out!
+

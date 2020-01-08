@@ -111,7 +111,7 @@ def wiki_hotkey() -> bool:
 
 # noinspection PyPep8Naming
 def setupShortcuts():
-    QShortcut(QKeySequence(config["local"]["popup_hotkey"]),
+    QShortcut(QKeySequence(config["local"]["wiki_popup_hotkey"]),
               mw, activated=wiki_hotkey)
 
 

@@ -3,13 +3,13 @@ console.log("wiki_popup.js loaded");
 // Create the tooltips only when document ready
 $(document).ready(function () {
 
-    function createTooltip(element) {
+    function createWikiTooltip(element) {
         // Creates tooltip on specified DOM element, sets up mouse click events
         // and child tooltips, returns tooltip API object
 
 
         // create qtip on Anki qa div and assign its api object to 'tooltip'
-        let tooltip = $(element).qtip({
+        let wikiTooltip = $(element).qtip({
             content: {
                 text: "Loading..."
             },
@@ -59,7 +59,7 @@ $(document).ready(function () {
         //     if (clicks === 2) {
         //         event.stopImmediatePropagation();
         //         $(document).one("mouseup", function (event) {
-        //             showTooltip(event, tooltip, element);
+        //             showWikiTooltip(event, tooltip, element);
         //             clicks = 0;
         //         });
         //     } else {
@@ -67,7 +67,7 @@ $(document).ready(function () {
         //     }
         // });
 
-        return tooltip;
+        return wikiTooltip;
     }
 
     getSelected = function () {
@@ -82,15 +82,15 @@ $(document).ready(function () {
         let ttBoundElm = $(selElm).closest(".qtip-content");
         if (typeof ttBoundElm[0] === "undefined") {
             ttBoundElm = document.getElementById("qa");
-            tooltip = qaTooltip;
+            tooltip = qaWikiTooltip;
         } else {
             tooltip = ttBoundElm.qtip("api");
         }
-        showTooltip(event, tooltip, ttBoundElm);
+        showWikiTooltip(event, tooltip, ttBoundElm);
     };
 
     // Look up selected text and show result in provided tooltip
-    showTooltip = function (event, tooltip, element) {
+    showWikiTooltip = function (event, tooltip, element) {
         /* event: event that triggered function call
            tooltip: qtip api object of tooltip to use for showing results
            element: element that tooltip is bound to */
@@ -147,7 +147,7 @@ $(document).ready(function () {
             if ($(newdomID).length === 0) {
                 // Bind new qtip instance to content of current tooltip
                 console.log("Create new tooltip on ID: " + domID + ". Tooltip will have ID: " + newdomID);
-                createTooltip(domID + "-content");
+                createWikiTooltip(domID + "-content");
             } else {
                 // Reuse existing qtip instance
                 console.log("Found existing tooltip with ID: " + newdomID)
@@ -162,8 +162,8 @@ $(document).ready(function () {
             return;
         }
         event.stopImmediatePropagation();
-        qaTooltip.hide();
+        qaWikiTooltip.hide();
     });
 
-    qaTooltip = createTooltip("#qa");
+    qaWikiTooltip = createWikiTooltip("#qa");
 });
