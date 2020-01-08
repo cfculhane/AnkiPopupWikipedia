@@ -11,9 +11,9 @@ class ADDON(object):
     """Class storing general add-on properties
     Property names need to be all-uppercase with no leading underscores
     """
-    NAME = "Anki Wiki Popup"
-    MODULE = "anki_wiki_popup"
-    ID = "0000000000"
+    NAME = "Popup Wikipedia"
+    MODULE = "popup_wikipedia"
+    ID = "395343016"
     VERSION = __version__
     LICENSE = "GNU AGPLv3"
     AUTHORS = (

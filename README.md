@@ -23,12 +23,12 @@ This is currently in beta stage - things will almost certainly break! Please sub
 
 #### AnkiWeb
 
-The easiest way to install Pop-up Dictionary is through [AnkiWeb](https://ankiweb.net/shared/info/).
+The easiest way to install Pop-up Dictionary is through [AnkiWeb](https://ankiweb.net/shared/info/395343016).
 
 #### Manual installation
 
 1. Make sure you have the [latest version](https://apps.ankiweb.net/#download) of Anki 2.1 installed. Earlier releases (e.g. found in various Linux distros) do not support `.ankiaddon` packages.
-2. Download the latest `.ankiaddon` package from the [releases tab](https://github.com/glutanimate/popup-dictionary/releases) (you might need to click on *Assets* below the description to reveal the download links)
+2. Download the latest `.ankiaddon` package from the [releases tab](https://github.com/cfculhane/AnkiPopupWikipedia/releases) (you might need to click on *Assets* below the description to reveal the download links)
 3. From Anki's main window, head to *Tools* → *Add-ons*
 4. Drag-and-drop the `.ankiaddon` package onto the add-ons list
 5. Restart Anki
@@ -43,7 +43,7 @@ I would also like to thank the team at [AMBOSS](https://www.amboss.com/) for the
 
 Ships with the following javascript libraries:
 - jQuery (v1.12.4), (c) jQuery Foundation, licensed under the MIT license
-- qTip2 (v2.1.1), (c) 2011-2018 Craig Michael Thompson, licensed under the MIT license
+- qTip2 (v3.0.3), (c) 2011-2018 Craig Michael Thompson, licensed under the MIT license
 - imagesLoaded (v4.1.4) (c) David DeSandro, licensed under the MIT license
 
 PopupWikipedia is free and open-source software. The add-on code that runs within Anki is released under the GNU AGPLv3 license. For more information please see the [LICENSE](https://github.com/cfculhane/AnkiPopupWikipedia/blob/master/LICENSE) file that accompanied this program.

@@ -31,7 +31,6 @@ import json
 import re
 from os import PathLike
 from pathlib import Path
-from typing import Dict, Union
 
 from .libaddon._vendor.common.requests_cache import CachedSession
 
@@ -153,7 +152,7 @@ class WikiConnect(object):
 
         return f'<div class="wiki-result">{filled_html}</div>'
 
-    def summary_parser(self, summary_resp: Dict) -> Dict:
+    def summary_parser(self, summary_resp: {}) -> {}:
         """
         Handles disambiguation routing, search failuers
 
@@ -194,5 +193,5 @@ class WikiConnect(object):
         return p.sub(srcrepl, html_str)
 
     @staticmethod
-    def _write_htmlfile(html, pth: Union[Path, str, PathLike]) -> int:
+    def _write_htmlfile(html, pth: PathLike) -> int:
         return Path(pth).write_text(html, encoding="utf-8")

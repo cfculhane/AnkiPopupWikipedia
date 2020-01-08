@@ -1,89 +1,61 @@
 <!--readme file for the AnkiWeb page-->
 <b>AnkiWikiPopup</b>
 
-<p>Anki 2.1 addon to display Wikipedia page previews inside of <a href="https://apps.ankiweb.net/">Anki</a>.</p>
+Anki 2.1 addon to display Wikipedia page previews inside of <a href="https://apps.ankiweb.net/">Anki</a>.
 
-<p>Shows a popup of the Mobile Wikipedia page / Extract for the selected text. In order to avoid conflicts with the
-    Popup-Dictionary addon, this addon only supports keyboard shortcuts (Control-Shift-W) for now. </p>
+Shows a popup of the Mobile Wikipedia page / Extract for the selected text. In order to avoid conflicts with the
+Popup-Dictionary addon, this addon only supports keyboard shortcuts <b>(Control-Shift-W)</b> for now.
 
 <b>Modes:</b>
+Mobile (default)
+<img src="https://raw.githubusercontent.com/cfculhane/AnkiPopupWikipedia/master/docs/content_mobile.png" alt=""/>
 
-<p>| Mobile (default) | Extract (shorter, faster to load) |
-    <img src="docs/content_mobile.png" alt="docs/content_extract.png"/> | <img src="docs/content_extract.png"
-                                                                               alt="docs/content_extract.png"/>
-</p>
+Extract (shorter, faster to load)
+<img src="https://raw.githubusercontent.com/cfculhane/AnkiPopupWikipedia/master/docs/content_extract.png" alt=""/>
 
 <b> Features </b>
-
 <ul>
-    <li>Popup of either full mobile pages, or shorter extracts</li>
-
-    <li>page caching to speed up repeated searches</li>
-
-    <li>Full HTML popups with</li>
+    - Popup of either full mobile pages, or shorter extracts
+    - page caching to speed up repeated searches
+    - Full HTML popups with images
 </ul>
 
-<p>This is currently in beta stage - things will almost certainly break! Please submit a bug report if it does.</p>
+This is currently in beta stage - things will almost certainly break! Please submit a bug report if it does.
 
-<h3 id="installation">Installation</h3>
+<b>Installation</b>
 
-<h4 id="ankiweb">AnkiWeb</h4>
+The easiest way to install Pop-up Dictionary is through <a href="https://ankiweb.net/shared/info/">AnkiWeb</a>.
 
-<p>The easiest way to install Pop-up Dictionary is through <a href="https://ankiweb.net/shared/info/">AnkiWeb</a>.</p>
+<b>License and Credits</b>
 
-<h4 id="manualinstallation">Manual installation</h4>
+Significant portions of the code (as marked in the source files)
+were based on the Anki add-on <a href="https://github.com/glutanimate/popup-dictionary/">Pop-up Dictionary</a> by
+Glutanimate. <a href="https://glutanimate.com/support-my-work/">Click here to support Glutanimate's work</a>.
 
-<ol>
-    <li>Make sure you have the <a href="https://apps.ankiweb.net/#download">latest version</a> of Anki 2.1 installed.
-        Earlier releases (e.g. found in various Linux distros) do not support <code>.ankiaddon</code> packages.
-    </li>
+I would also like to thank the team at <a href="https://www.amboss.com/">AMBOSS</a> for their encouragment and
+inspiration for this work. Some css and js code was taken from their <a
+        href="https://www.amboss.com/us/anki-amboss?hp=header">extremely good Anki Addon</a>.
 
-    <li>Download the latest <code>.ankiaddon</code> package from the <a
-            href="https://github.com/glutanimate/popup-dictionary/releases">releases tab</a> (you might need to click on
-        <em>Assets</em> below the description to reveal the download links)
-    </li>
-
-    <li>From Anki's main window, head to <em>Tools</em> → <em>Add-ons</em></li>
-
-    <li>Drag-and-drop the <code>.ankiaddon</code> package onto the add-ons list</li>
-
-    <li>Restart Anki</li>
-</ol>
-
-<h3 id="licenseandcredits">License and Credits</h3>
-
-<p>Significant portions of the code (as marked in the source files)
-    were based on the Anki add-on <a href="https://github.com/glutanimate/popup-dictionary/">Pop-up Dictionary</a> by
-    Glutanimate. <a href="https://glutanimate.com/support-my-work/">Click here to support Glutanimate's work</a>.</p>
-
-<p>I would also like to thank the team at <a href="https://www.amboss.com/">AMBOSS</a> for their encouragment and
-    insipration for this work. Some css and js code was taken from their <a
-            href="https://www.amboss.com/us/anki-amboss?hp=header">extremely good Anki Addon</a>.</p>
-
-<p>Ships with the following javascript libraries:</p>
+Ships with the following javascript libraries:
 
 <ul>
-    <li>jQuery (v1.12.4), (c) jQuery Foundation, licensed under the MIT license</li>
-
-    <li>qTip2 (v2.1.1), (c) 2011-2018 Craig Michael Thompson, licensed under the MIT license</li>
-
-    <li>imagesLoaded (v4.1.4) (c) David DeSandro, licensed under the MIT license</li>
+    - jQuery (v1.12.4), (c) jQuery Foundation, licensed under the MIT license
+    - qTip2 (v2.1.1), (c) 2011-2018 Craig Michael Thompson, licensed under the MIT license
+    - imagesLoaded (v4.1.4) (c) David DeSandro, licensed under the MIT license
 </ul>
 
-<p>PopupWikipedia is free and open-source software. The add-on code that runs within Anki is released under the GNU
-    AGPLv3 license. For more information please see the <a
-            href="https://github.com/cfculhane/AnkiPopupWikipedia/blob/master/LICENSE">LICENSE</a> file that accompanied
-    this program.</p>
+PopupWikipedia is free and open-source software. The add-on code that runs within Anki is released under the GNU
+AGPLv3 license. For more information please see the <a
+        href="https://github.com/cfculhane/AnkiPopupWikipedia/blob/master/LICENSE">LICENSE</a> file that accompanied
+this program.
 
-<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.</p>
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
 
-<h3 id="knownissues">Known issues</h3>
+<b> Known issues</b>
 
 <ul>
-    <li>Clicking on links inside the popup opens the browser, but with the wrong URL</li>
-
-    <li>Disambiguation pages are not handled well</li>
-
-    <li>Does not work with NightMode due to the way Night-Mode monkeypatches Reviewer.revHtml, see <a
-            href="https://github.com/krassowski/Anki-Night-Mode/issues/53">this github issue here</a></li>
+    - Clicking on links inside the popup opens the browser, but with the wrong URL
+    - Disambiguation pages are not handled well
+    - Does not work with NightMode due to the way Night-Mode monkeypatches Reviewer.revHtml, see <a
+        href="https://github.com/krassowski/Anki-Night-Mode/issues/53">this github issue here</a>
 </ul>
