@@ -44,10 +44,6 @@ from .config import config
 from .web import EXTENSION_HTML
 from .wiki_connect import WikiConnect
 
-# html_reslist = """<div class="tt-reslist">{}</div>"""
-
-# html_field = """<div class="tt-fld">{}</div>"""
-
 # RegExes for cloze marker removal
 
 cloze_re_str = r"\{\{c(\d+)::(.*?)(::(.*?))?\}\}"
@@ -74,13 +70,6 @@ def get_wikicontent(term) -> str:
         raise ValueError(f"popup_type {popup_type} not supported! Please check configuration file.")
 
     return content
-    # if content:
-    #     return html_reslist.format("".join(content))
-    # elif note_content is False:
-    #     return ""
-    # elif note_content is None:
-    #     return "No other results found." if conf["show_notfound_msg"] else ""
-
 
 # noinspection PyPep8Naming
 def linkHandler(self, url, _old):
@@ -99,7 +88,6 @@ def linkHandler(self, url, _old):
 
 # noinspection PyPep8Naming
 def onRevHtml(self, _old):
-    print(f"Updated reviewer HTML :\n{_old(self) + EXTENSION_HTML}")
     return _old(self) + EXTENSION_HTML
 
 

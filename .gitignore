@@ -107,3 +107,4 @@ venv.bak/
 /anki_wiki_popup/anki_source/
 /popup-dictionary/
 popup_wikipedia/cache.sqlite
+/dist/

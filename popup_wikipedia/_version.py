@@ -2,7 +2,7 @@
 
 # Popup Wikipedia Add-on for Anki
 #
-# Copyright (C) 2019 Chris Culhane>
+# Copyright (C) 2019 Chris Culhane
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -24,8 +24,6 @@
 # terms and conditions of the GNU Affero General Public License that
 # accompanied this program.
 #
-# If not, please request a copy through one of the means of contact
-# listed here: <https://glutanimate.com/contact/>.
 #
 # Any modifications to this file must keep this entire header intact.
 

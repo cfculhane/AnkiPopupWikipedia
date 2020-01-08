@@ -1,5 +1,5 @@
 // Custom JS that is added as a script element to Reviewer HTML
-console.log("dictionary_tooltip.js loaded");
+console.log("wiki_popup.js loaded");
 // Create the tooltips only when document ready
 $(document).ready(function () {
 
@@ -46,25 +46,26 @@ $(document).ready(function () {
         // element boundaries → support for dblclick-holding and
         // then releasing over different DOM element (e.g. boldened text)
 
-        let clicks = 0, delay = 500;
-
-        $(element).on('mousedown', function (event) {
-            clicks++;
-
-            setTimeout(function () {
-                clicks = 0;
-            }, delay);
-
-            if (clicks === 2) {
-                event.stopImmediatePropagation();
-                $(document).one("mouseup", function (event) {
-                    showTooltip(event, tooltip, element);
-                    clicks = 0;
-                });
-            } else {
-                tooltip.hide();
-            }
-        });
+        // DISABLE mouse clicks for now, until resolve pontential conflict with popup-dictionary
+        // let clicks = 0, delay = 500;
+        //
+        // $(element).on('mousedown', function (event) {
+        //     clicks++;
+        //
+        //     setTimeout(function () {
+        //         clicks = 0;
+        //     }, delay);
+        //
+        //     if (clicks === 2) {
+        //         event.stopImmediatePropagation();
+        //         $(document).one("mouseup", function (event) {
+        //             showTooltip(event, tooltip, element);
+        //             clicks = 0;
+        //         });
+        //     } else {
+        //         tooltip.hide();
+        //     }
+        // });
 
         return tooltip;
     }
@@ -138,10 +139,8 @@ $(document).ready(function () {
             tooltip.set('content.text', text);
             console.log("Set text");
             tooltip.show();
-            console.log("Showed tooltip");
             // Need to scroll to top if tooltip has been drawn before
             $(domID + "-content").scrollTop(0);
-            console.log("Scrolled tooltip");
 
             // Nested tooltips
             // create child tooltip for content on current tooltip

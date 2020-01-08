@@ -33,7 +33,7 @@ from os import PathLike
 from pathlib import Path
 from typing import Dict, Union
 
-from requests_cache import CachedSession
+from .libaddon._vendor.common.requests_cache import CachedSession
 
 
 class WikiConnect(object):
@@ -47,7 +47,7 @@ class WikiConnect(object):
         self.session = CachedSession(expire_after=cache_expiry_hrs * 3600)  # expire_after is in seconds
 
     def get_summary(self, title: str) -> {}:
-        """ Gets the raw preview JSON API response for a title"""
+        """ Gets the raw summary JSON API response for a title"""
         req_url = f"{self.REST_API_BASEURL}page/summary/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return json.loads(resp.text)
@@ -87,6 +87,7 @@ class WikiConnect(object):
         req_url = f"https://en.wikipedia.org/w/api.php?action=query&format=json&list=querypage&qppage=DisambiguationPageLinks&qplimit=10"
 
         similar_titles = "https://en.wikipedia.org/w/api.php?action=query&list=alllinks&alfrom=Tissue&alnamespace=0&alunique=true"
+        # alunique might be important?
         resp = self.session.get(url=req_url)
 
     def get_extract(self, title: str) -> str:

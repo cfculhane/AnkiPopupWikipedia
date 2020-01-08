@@ -39,7 +39,8 @@ from ..packaging import VersionSpecificImporter
 names = [
     "packaging",
     "markdown2",
-    "logging"
+    "logging",
+    "requests_cache"
 ]
 
 # NOTE: VersionSpecificImporter does not resolve absolute imports within
