@@ -65,6 +65,7 @@ class WikiConnect(object):
         req_url = f"{self.REST_API_BASEURL}page/mobile-html/{self._parse_title(title)}"
         resp = self.session.get(url=req_url)
         return f'<div class="wiki-result">{resp.text}</div>'
+        # return f'<iframe srcdoc="{resp.text}"   sandbox />'
 
     def search(self, search_term: str):
         """

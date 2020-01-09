@@ -6,3 +6,4 @@ Please note that the following settings do not sync and require a restart to app
 - `wiki_language` (string): Language of wikipedia to use, [as per list here](https://en.wikipedia.org/wiki/List_of_Wikipedias#List). Default `"en"`
 - `exclude_list` (string): (Optional) (UNUSED CURRENTLY) Path to list of words to exclude from wikipedia lookups. Default `""` (empty)
 - `cache_expire_after` (integer): Number of hours to store a cache of the wikipedia previews. Default: `720` hours (30 days)
+- `strip_css` (boolean): If true, will strip css elements of the mobile html page, to stop the reviewer style being overwritten. If set to `false`, cards may not display correctly after a popup is shown. Default: `true`

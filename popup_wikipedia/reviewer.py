@@ -58,7 +58,6 @@ def get_wikicontent(term) -> str:
     """ Compose tooltip content for search term.
     Returns HTML string. """
     conf = config["local"]
-    note_content = None
     wiki = WikiConnect(cache_expiry_hrs=conf["cache_expire_after"])
 
     popup_type: str = conf["popup_type"]
@@ -69,6 +68,9 @@ def get_wikicontent(term) -> str:
     else:
         raise ValueError(f"popup_type {popup_type} not supported! Please check configuration file.")
 
+    if conf["strip_css"] is True:
+        wiki_css_re = re.compile('<link rel="stylesheet" href="//meta.wikimedia.org/api/rest_v1/data/css/mobile/base">')
+        content = re.sub(wiki_css_re, repl="", string=content)
     return content
 
 

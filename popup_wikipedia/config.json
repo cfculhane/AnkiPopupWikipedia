@@ -3,5 +3,6 @@
     "wiki_popup_hotkey": "Ctrl+Shift+W",
     "wiki_language": "en",
     "exclude_list": "",
-    "cache_expire_after": 720
+    "cache_expire_after": 720,
+    "strip_css": true
 }

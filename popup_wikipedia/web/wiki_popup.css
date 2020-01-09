@@ -27,12 +27,12 @@
 
 .wiki-result {
     position: relative;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    /*margin-top: 0.5em;*/
+    /*margin-bottom: 0.5em;*/
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+    padding-left: 0.5em !important;
+    padding-right: 0.5em !important;
 }
 
 .qtip img {

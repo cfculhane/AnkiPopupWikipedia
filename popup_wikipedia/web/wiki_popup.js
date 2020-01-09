@@ -11,9 +11,10 @@ $(document).ready(function () {
         // create qtip on Anki qa div and assign its api object to 'tooltip'
         var wikiTooltip = $(element).qtip({
             content: {
-                text: "Loading..."
+                text: "Loading...",
+                button: 'Close'
             },
-            prerender: true,  // need to prerender for child tooltips to work properly
+            prerender: false,  // need to prerender for child tooltips to work properly
             // draw on mouse position, but don't update position on mousemove
             position: {
                 target: 'mouse',
@@ -82,12 +83,15 @@ $(document).ready(function () {
         let selection = getSelected();
         let selElm = selection.getRangeAt(0).startContainer.parentNode;
         let ttBoundElm = $(selElm).closest(".qtip-content");
-        if (typeof ttBoundElm[0] === "undefined") {
-            ttBoundElm = document.getElementById("qa");
-            tooltip = qaWikiTooltip;
-        } else {
-            tooltip = ttBoundElm.qtip("api");
-        }
+        // if (typeof ttBoundElm[0] === "undefined") {
+        ttBoundElm = document.getElementById("qa");
+        tooltip = qaWikiTooltip;
+        console.log("tooltip = qaWikiTooltip");
+        // }
+        // } else {
+        //     tooltip = ttBoundElm.qtip("api");
+        //     console.log("tooltip = ttBoundElm.qtip('api')")
+        // }
         showWikiTooltip(event, tooltip, ttBoundElm);
     };
 
@@ -129,31 +133,31 @@ $(document).ready(function () {
             }
 
             // // Determine current qtip ID and ID of potential child tooltip
-            let ttID = tooltip.get('id');
-            console.log(ttID);
-            let domID = "#qtip-" + ttID;
-            let newttID = ttID + 1;
-            let newdomID = "#qtip-" + newttID;
-            console.log("Current tt domID: " + domID);
-            console.log("New tt domID: " + newdomID);
+            // let ttID = tooltip.get('id');
+            // console.log(ttID);
+            // let domID = "#qtip-" + ttID;
+            // let newttID = ttID + 1;
+            // let newdomID = "#qtip-" + newttID;
+            // console.log("Current tt domID: " + domID);
+            // console.log("New tt domID: " + newdomID);
 
             // Set tooltip content and show it
             tooltip.set('content.text', text);
             console.log("Set text");
             tooltip.show();
-            // Need to scroll to top if tooltip has been drawn before
-            // $(domID + "-content").scrollTop(0);
-
-            // Nested tooltips
-            // create child tooltip for content on current tooltip
-            if ($(newdomID).length === 0) {
-                // Bind new qtip instance to content of current tooltip
-                console.log("Create new tooltip on ID: " + domID + ". Tooltip will have ID: " + newdomID);
-                createWikiTooltip(domID + "-content");
-            } else {
-                // Reuse existing qtip instance
-                console.log("Found existing tooltip with ID: " + newdomID)
-            }
+            // // Need to scroll to top if tooltip has been drawn before
+            // // $(domID + "-content").scrollTop(0);
+            //
+            // // Nested tooltips
+            // // create child tooltip for content on current tooltip
+            // if ($(newdomID).length === 0) {
+            //     // Bind new qtip instance to content of current tooltip
+            //     console.log("Create new tooltip on ID: " + domID + ". Tooltip will have ID: " + newdomID);
+            //     createWikiTooltip(domID + "-content");
+            // } else {
+            //     // Reuse existing qtip instance
+            //     console.log("Found existing tooltip with ID: " + newdomID)
+            // }
         }
 
     };
