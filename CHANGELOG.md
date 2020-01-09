@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - fix for reformatting of cards
-- fix for tooltip not closing
 - exclude list for words to ignore
 
 ## v0.2.0 - 2019-01-09
@@ -15,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Multi language support (change in config.json, default `en`)
+
+### Fixed
+
+- fix for tooltip not closing
+ 
 
 ## v0.1.0 - 2019-01-08
 

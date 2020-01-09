@@ -29,17 +29,19 @@ $(document).ready(function () {
                 classes: 'qtip-bootstrap',
             },
             // don't set up any hide event triggers, do it manually instead
-            hide: false,
+            hide: {
+                event: 'unfocus'
+            },
             // wait until called upon
             show: false,
-            events: {
-                hide: function (event, api) {
-                    // hide next nested tooltip on hide
-                    let ttID = api.get('id');
-                    let ttID_next = "#qtip-" + (ttID + 1);
-                    $(ttID_next).qtip('hide');
-                }
-            }
+            // events: {
+            //     hide: function (event, api) {
+            //         // hide next nested tooltip on hide
+            //         let ttID = api.get('id');
+            //         let ttID_next = "#qtip-" + (ttID + 1);
+            //         $(ttID_next).qtip('hide');
+            //     }
+            // }
         }).qtip('api');
 
         // Custom double click event handler that works across
@@ -126,7 +128,7 @@ $(document).ready(function () {
                 return;
             }
 
-            // Determine current qtip ID and ID of potential child tooltip
+            // // Determine current qtip ID and ID of potential child tooltip
             let ttID = tooltip.get('id');
             console.log(ttID);
             let domID = "#qtip-" + ttID;
@@ -140,7 +142,7 @@ $(document).ready(function () {
             console.log("Set text");
             tooltip.show();
             // Need to scroll to top if tooltip has been drawn before
-            $(domID + "-content").scrollTop(0);
+            // $(domID + "-content").scrollTop(0);
 
             // Nested tooltips
             // create child tooltip for content on current tooltip
