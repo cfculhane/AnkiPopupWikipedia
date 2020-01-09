@@ -32,15 +32,17 @@ import re
 from os import PathLike
 from pathlib import Path
 
+from .config import config
 from .libaddon._vendor.common.requests_cache import CachedSession
 
 
 class WikiConnect(object):
     """ Handle connections to wikipedia and gets HTML formatted text of articles in either extract
     or mobile formats. """
-    REST_API_BASEURL = "https://en.wikipedia.org/api/rest_v1/"
-    MEDIAWIKI_API_BASEURL = "https://en.wikipedia.org/w/api.php"
-    WIKI_BASEURL = "https://en.wikipedia.org/"
+    LANGUAGE = config["local"]["wiki_language"]
+    REST_API_BASEURL = f"https://{LANGUAGE}.wikipedia.org/api/rest_v1/"
+    MEDIAWIKI_API_BASEURL = f"https://{LANGUAGE}.wikipedia.org/w/api.php"
+    WIKI_BASEURL = f"https://{LANGUAGE}.wikipedia.org/"
 
     def __init__(self, cache_expiry_hrs: int):
         self.session = CachedSession(expire_after=cache_expiry_hrs * 3600)  # expire_after is in seconds

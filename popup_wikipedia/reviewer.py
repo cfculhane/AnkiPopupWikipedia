@@ -71,6 +71,7 @@ def get_wikicontent(term) -> str:
 
     return content
 
+
 # noinspection PyPep8Naming
 def linkHandler(self, url, _old):
     """JS <-> Py bridge"""

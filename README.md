@@ -15,9 +15,9 @@ Shows a popup of the Mobile Wikipedia page / Extract for the selected text. In o
 
 - Popup of either full mobile pages, or shorter extracts
 - page caching to speed up repeated searches
-- Full HTML popups with 
+- Multilanguage support - change the language in `config.json` with the language [as per list here](https://en.wikipedia.org/wiki/List_of_Wikipedias#List).
 
-This is currently in beta stage - things will almost certainly break! Please submit a bug report if it does.
+This addon currently in beta stage - things will almost certainly break! Please submit a bug report if it does.
 
 ### Installation
 
@@ -53,7 +53,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 ### Known issues
 
-- Clicking on links inside the popup opens the browser, but with the wrong URL
+- Clicking on links inside the popup opens the browser, *but with the wrong URL*
 - Disambiguation pages are not handled well
 - Does not work with NightMode due to the way Night-Mode monkeypatches Reviewer.revHtml, see [this github issue here](https://github.com/krassowski/Anki-Night-Mode/issues/53)
 - Currently does not play nicely with Popup Dictionary. Currently trying to figure this out!

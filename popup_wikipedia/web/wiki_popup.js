@@ -9,7 +9,7 @@ $(document).ready(function () {
 
 
         // create qtip on Anki qa div and assign its api object to 'tooltip'
-        let wikiTooltip = $(element).qtip({
+        var wikiTooltip = $(element).qtip({
             content: {
                 text: "Loading..."
             },
